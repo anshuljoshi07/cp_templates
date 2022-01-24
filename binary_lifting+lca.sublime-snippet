@@ -1,0 +1,78 @@
+<snippet>
+	<content><![CDATA[
+//**************binary lifting begins**************
+
+vector<vll>parent;
+vll depth;
+ll mx_pow = 20;// change this as required(max value is 2^(mx_pow-1), not 2^(mx_pow))
+void assign_parent(ll curr_node, ll par)
+{
+    for (auto x : adj[curr_node])
+    {
+        if (x == par)continue;
+        depth[x] = 1 + depth[curr_node];
+        parent[x][0] = curr_node;
+        assign_parent(x, curr_node);
+    }
+}
+// call the following function in main :
+void binary_lifting(ll n)
+{
+    ll i, j, temp;
+    parent.assign(n + 1, vll(mx_pow, 0));
+    depth.assign(n + 1, 0);
+    assign_parent(1, -1);
+
+    for (j = 1; j < mx_pow; j++)
+    {
+        for (i = 1; i <= n; i++)
+        {
+            temp = parent[i][j - 1];
+            parent[i][j] = parent[temp][j - 1];
+        }
+    }
+
+}
+
+//****************binary lifting ends****************
+
+//*******************lca begins**********************
+
+// comment the following function if you only need binary lifting and not lca
+ll get_lca(ll u, ll v)
+{
+    if (depth[u] < depth[v])swap(u, v);
+    ll jump = depth[u] - depth[v];
+    ll i, j;
+    for (j = 0; j < mx_pow; j++)
+    {
+        if (jump & (1 << j))
+        {
+            u = parent[u][j];
+        }
+    }
+    if (u == v)return u;
+    for (j = mx_pow - 1; j >= 0; j--)
+    {
+        if (parent[u][j] != parent[v][j])
+        {
+            u = parent[u][j];
+            v = parent[v][j];
+        }
+    }
+    return parent[u][0];
+}
+//********************lca ends***********************
+
+ll get_distance(ll u, ll v)
+{
+    ll lc = get_lca(u, v);
+    return depth[u] + depth[v] - 2 * depth[lc];
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>binary_lefting_lca</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

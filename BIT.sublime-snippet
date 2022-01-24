@@ -1,0 +1,36 @@
+<snippet>
+	<content><![CDATA[
+vll bit;
+ll tot;
+// define tot to be the size of the array/1+total number of unique elements in case
+// of coordinate compression
+
+// here val is the delta, i.e change in the value. 
+void update(ll pos,ll val){
+    ll i = pos;
+    while(i <= tot){
+        bit[i] += val;
+        i += (i&(-1*i));
+    }
+}
+ 
+ll sum(ll pos){
+    ll x = 0;
+    ll i = pos;
+    while(i > 0){
+        x += bit[i];
+        i -= i & -1*(i);
+    }
+    return x;
+}
+ 
+ll range(ll l,ll r){
+    return sum(r) - sum(l - 1);
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>BIT</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

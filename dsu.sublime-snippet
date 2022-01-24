@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+vll parent, rnk;
+
+// don't forget to call make_set() inside main
+void make_set(ll n)
+{
+	ll i;
+	rnk.assign(n + 1, 0);
+	parent.assign(n + 1, 0);
+	fo(i, 1, n)
+	{
+		parent[i] = i;
+	}
+}
+
+ll find_set(ll u)
+{
+	if (parent[u] == u)return u;
+	return parent[u] = find_set(parent[u]);
+}
+
+bool union_set(ll u, ll v)
+{
+	u = find_set(u);
+	v =	find_set(v);
+	if (u == v)return false;
+
+	if (rnk[u] < rnk[v])swap(u, v);
+	parent[v] = u;
+	if (rnk[v] == rnk[u])rnk[u]++;
+	return true;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsu</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+// don't forget to call the sieve function
+ll N = 200005;
+vll spf(N + 1, 1);
+void sieve()
+{
+    ll i, j;
+    fo(i, 2, N)
+    {
+        if (spf[i] == 1)
+        {
+            spf[i] = i;
+            for (j = i * i; j <= N; j += i)
+            {
+                if (spf[j] == 1)spf[j] = i;
+            }
+        }
+    }
+}
+map<ll, ll>factorize(ll n)
+{
+    map<ll, ll>ans;
+    while (n > 1)
+    {
+        ll fact = spf[n];
+        ll cnt = 0;
+        while (n % fact == 0)
+        {
+            cnt++;
+            n /= fact;
+        }
+        ans[fact] = cnt;
+    }
+    return ans;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>spf-prime_factorization</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
