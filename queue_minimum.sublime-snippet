@@ -1,0 +1,24 @@
+<snippet>
+	<content><![CDATA[
+//mn[i] stores the minimum in range [i.....i+m-1].
+// for maximum, replace > by <
+vll mn(n+1,0);
+deque<ll>q;
+fo(i,1,m-1)
+{
+    while(sz(q) and q.back() > a[i])q.pop_back();
+    q.push_back(a[i]);
+}
+fo(i,m,n)
+{
+    while(sz(q) and q.back() > a[i])q.pop_back();
+    q.push_back(a[i]);
+    mn[i-m+1] = q.front();
+    if(q.front() == a[i-m+1])q.pop_front();
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>queue_minimum</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
